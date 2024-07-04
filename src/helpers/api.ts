@@ -39,6 +39,6 @@ class ApiService {
   }
 }
 
-const apiService = new ApiService('https://your-api-base-url.com');
+const apiService = new ApiService(import.meta.env.VITE_API_URL as string);
 
 export default apiService;
