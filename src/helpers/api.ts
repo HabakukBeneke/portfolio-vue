@@ -1,6 +1,6 @@
-// helpers/api.ts
 import axios from 'axios';
 import type { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
+import MockInterceptor from './mockInterceptor';
 
 class ApiService {
   private axiosInstance: AxiosInstance;
@@ -12,15 +12,19 @@ class ApiService {
         'Content-Type': 'application/json'
       }
     });
+
+    if (import.meta.env.MODE === 'development') {
+      this.axiosInstance.interceptors.request.use(MockInterceptor);
+    }
   }
 
   public async get<T>(url: string, config?: AxiosRequestConfig): Promise<AxiosResponse<T>> {
     return this.axiosInstance.get<T>(url, config);
   }
 
-  public async post<T>(
+  public async post<T, D = any>(
     url: string,
-    data: any,
+    data: D,
     config?: AxiosRequestConfig
   ): Promise<AxiosResponse<T>> {
     return this.axiosInstance.post<T>(url, data, config);
@@ -39,6 +43,6 @@ class ApiService {
   }
 }
 
-const apiService = new ApiService(import.meta.env.VITE_API_URL as string);
+const apiService = new ApiService(import.meta.env.VITE_API_URL);
 
 export default apiService;
