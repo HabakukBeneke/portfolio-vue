@@ -2,8 +2,8 @@ import axios from 'axios';
 import type { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
 import MockInterceptor from './mockInterceptor';
 
-class ApiService {
-  private axiosInstance: AxiosInstance;
+export class ApiService {
+  public axiosInstance: AxiosInstance;
 
   constructor(baseURL: string) {
     this.axiosInstance = axios.create({
@@ -30,9 +30,9 @@ class ApiService {
     return this.axiosInstance.post<T>(url, data, config);
   }
 
-  public async put<T>(
+  public async put<T, D = any>(
     url: string,
-    data: any,
+    data: D,
     config?: AxiosRequestConfig
   ): Promise<AxiosResponse<T>> {
     return this.axiosInstance.put<T>(url, data, config);
