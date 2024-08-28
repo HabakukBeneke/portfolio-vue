@@ -1,7 +1,16 @@
 $icomoon-font-family: 'Habakuk-Beneke-Resume' !default;
-$icomoon-font-path: 'fonts' !default;
+$icomoon-font-path: 'src/assets/fonts' !default;
 
-$icon-briefcase: unquote('"\\e900"');
+$icon-computer-t: unquote('"\\e900"');
+$icon-blog-t: unquote('"\\e905"');
+$icon-house-t: unquote('"\\e906"');
+$icon-user-t: unquote('"\\e907"');
+$icon-user-s: unquote('"\\e908"');
+$icon-blog-s: unquote('"\\e909"');
+$icon-house-s: unquote('"\\e90a"');
+$icon-briefcase: unquote('"\\e90d"');
+$icon-computer-s: unquote('"\\e90b"');
+$icon-briefcase1: unquote('"\\e90c"');
 $icon-user: unquote('"\\e901"');
 $icon-blog: unquote('"\\e902"');
 $icon-house: unquote('"\\e903"');
@@ -9,3 +18,5 @@ $icon-computer: unquote('"\\e904"');
 
 $icon-s: 18px;
 $icon-m: 30px;
+
+$nav-color: red;

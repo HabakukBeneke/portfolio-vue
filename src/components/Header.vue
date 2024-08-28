@@ -38,6 +38,11 @@
     i {
       font-size: $icon-m;
     }
+
+    a {
+      text-decoration: none;
+      color: $nav-color;
+    }
   }
 }
 </style>
