@@ -7,7 +7,7 @@ export class ApiService {
 
   constructor(baseURL: string) {
     this.axiosInstance = axios.create({
-      baseURL: baseURL,
+      baseURL,
       headers: {
         'Content-Type': 'application/json'
       }
@@ -22,7 +22,7 @@ export class ApiService {
     return this.axiosInstance.get<T>(url, config);
   }
 
-  public async post<T, D = any>(
+  public async post<T, D = unknown>(
     url: string,
     data: D,
     config?: AxiosRequestConfig
@@ -30,7 +30,7 @@ export class ApiService {
     return this.axiosInstance.post<T>(url, data, config);
   }
 
-  public async put<T, D = any>(
+  public async put<T, D = unknown>(
     url: string,
     data: D,
     config?: AxiosRequestConfig

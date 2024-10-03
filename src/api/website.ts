@@ -1,6 +1,7 @@
 import apiService from '@/helpers/api';
-const RESOURCE = '/website';
 
-export function getWebsite() {
+const RESOURCE: string = '/website';
+
+export function getWebsite(): Promise<any> {
   return apiService.get(RESOURCE);
 }
