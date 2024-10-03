@@ -1,18 +1,24 @@
 <script>
-import { computed, ref } from 'vue';
+import { computed } from 'vue';
 import { useWebsiteStore } from '@/stores/website';
+import { useRoute } from 'vue-router';
 
 export default {
   name: 'HeaderComponent',
   setup() {
     const store = useWebsiteStore();
-    const isRouteActive = (route) => computed(() => store.websiteOptions.activeRoute === route);
-    const hoveredOption = ref(null);
+    const route = useRoute();
+    const activeRoute = computed(() => store.websiteOptions?.activeRoute || route.name);
+
+    const isRouteActive = (routeName) => activeRoute.value === routeName.name;
+    const iconClass = (option) => {
+      return `icon-${option.icon}${isRouteActive(option.route) ? '' : '-t'}`;
+    };
 
     return {
       isRouteActive,
-      hoveredOption,
-      headerOptions: store.headerOptions
+      headerOptions: store.headerOptions,
+      iconClass
     };
   }
 };
@@ -22,19 +28,13 @@ export default {
   <header class="header">
     <nav class="header__nav">
       <ul class="header__list">
-        <li
-          v-for="option in headerOptions"
-          :key="option.route"
-          class="header__item"
-          @mouseover="hoveredOption = option.route"
-          @mouseleave="hoveredOption = null"
-        >
-          <a :href="option.route" class="header__link">
-            <i :class="`icon-${option.icon}${isRouteActive(option.route).value ? '' : '-t'}`"></i>
+        <li v-for="option in headerOptions" :key="option.route" class="header__item">
+          <router-link :to="option.route" class="header__link" active-class="is-active">
+            <i :class="iconClass(option)"></i>
             <div class="header__text">
               {{ option.text }}
             </div>
-          </a>
+          </router-link>
         </li>
       </ul>
     </nav>
@@ -43,38 +43,48 @@ export default {
 
 <style scoped lang="scss">
 .header {
-  width: 100%;
+  width: $header-width;
   position: absolute;
   top: 0;
   left: 0;
+  padding: $header-padding;
 
   &__list {
     list-style: none;
-    display: flex;
-    gap: 1.5rem;
+    @include flex-center(row);
+    gap: $gap-size;
+    margin: 0;
+    padding: 0;
   }
 
   &__content {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    @include flex-center(column);
   }
 
   &__item {
     flex: 1 1 auto;
+    text-align: center;
 
     i {
-      font-size: $icon-m;
-      margin-bottom: 0.5rem;
+      @include icon-style($icon-m);
     }
+  }
 
-    a {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      text-decoration: none;
-      color: $nav-color;
-      width: 100%;
+  &__text {
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+
+  &__link {
+    @include flex-center(column);
+    text-decoration: none;
+    color: $nav-color;
+    width: 100%;
+
+    &:hover {
+      .header__text {
+        opacity: 1;
+      }
     }
   }
 }
