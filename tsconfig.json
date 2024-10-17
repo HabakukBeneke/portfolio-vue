@@ -15,6 +15,7 @@
     "module": "NodeNext",
     "forceConsistentCasingInFileNames": true,
     "verbatimModuleSyntax": true,
-    "strict": true
+    "strict": true,
+    "types": ["vite/client"]
   }
 }

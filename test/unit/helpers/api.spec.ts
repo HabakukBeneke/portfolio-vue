@@ -1,6 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { ApiService } from '../../../src/helpers/api';
-import type { AxiosInstance } from 'axios';
 
 describe('ApiService', () => {
   let apiService: ApiService;
