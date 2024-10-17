@@ -1,16 +1,17 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { ApiService } from '../../../src/helpers/api';
-import type { AxiosInstance } from 'axios';
 
 describe('ApiService', () => {
   let apiService: ApiService;
 
   beforeEach(() => {
     apiService = new ApiService('https://api.com');
+    vi.stubEnv('MODE', 'development');
   });
 
   afterEach(() => {
     vi.clearAllMocks();
+    vi.unstubAllEnvs();
   });
 
   describe('Constructor', () => {
@@ -24,7 +25,7 @@ describe('ApiService', () => {
     });
 
     it('should create an axios instance in dev mode', () => {
-      vi.stubEnv('MODE', 'development');
+      
       const service = new ApiService('https://api.com');
       expect(service.axiosInstance.interceptors).toBeDefined();
     });
@@ -32,27 +33,31 @@ describe('ApiService', () => {
 
   describe('API Methods', () => {
     it('should call axiosInstance.get with the correct URL and config', async () => {
-      const spy = vi.spyOn(apiService.axiosInstance, 'get');
+      const fakeResponse = { data: { message: 'Fake data response' } };
+      const spy = vi.spyOn(apiService.axiosInstance, 'get').mockResolvedValueOnce(fakeResponse);
       await apiService.get('https://api.com/data');
       expect(spy).toHaveBeenCalledWith('https://api.com/data', undefined);
     });
 
     it('should call axiosInstance.post with the correct URL and config', async () => {
+      const fakeResponse = { data: { message: 'Fake post response' } };
       const data = { name: 'John Doe' };
-      const spy = vi.spyOn(apiService.axiosInstance, 'post');
+      const spy = vi.spyOn(apiService.axiosInstance, 'post').mockResolvedValueOnce(fakeResponse);
       await apiService.post('https://api.com/data', data);
       expect(spy).toHaveBeenCalledWith('https://api.com/data', data, undefined);
     });
 
     it('should call axiosInstance.put with the correct URL and config', async () => {
+      const fakeResponse = { data: { message: 'Fake post response' } };
       const data = { name: 'John Doe' };
-      const spy = vi.spyOn(apiService.axiosInstance, 'put');
+      const spy = vi.spyOn(apiService.axiosInstance, 'put').mockResolvedValueOnce(fakeResponse);
       await apiService.put('https://api.com/data', data);
       expect(spy).toHaveBeenCalledWith('https://api.com/data', data, undefined);
     });
 
     it('should call axiosInstance.delete with the correct URL and config', async () => {
-      const spy = vi.spyOn(apiService.axiosInstance, 'delete');
+      const fakeResponse = { data: { message: 'Fake post response' } };
+      const spy = vi.spyOn(apiService.axiosInstance, 'delete').mockResolvedValueOnce(fakeResponse);
       await apiService.delete('https://api.com/data');
       expect(spy).toHaveBeenCalledWith('https://api.com/data', undefined);
     });
