@@ -1,9 +1,6 @@
 describe('Header Component E2E Tests', () => {
   beforeEach(() => {
-    cy.intercept('GET', '/api/headerData').as('getHeaderData');
     cy.visit('/');
-    cy.wait('@getHeaderData');
-
     cy.get('.header', { timeout: 20000 }).should('be.visible');
     cy.get('.header__item', { timeout: 10000 }).should('exist');
   });
@@ -16,7 +13,7 @@ describe('Header Component E2E Tests', () => {
     cy.get('.header__item').each(($el) => {
       cy.wrap($el).within(() => {
         cy.get('a.header__link').click();
-        cy.url().should('include', $el.attr('key'));
+        cy.url().should('include', $el.attr('href'));
       });
       cy.go('back');
     });
@@ -37,7 +34,8 @@ describe('Header Component E2E Tests', () => {
   });
 
   it('should show text when hovering over a header link', () => {
-    cy.get('.header__link').first().trigger('mouseover');
+    cy.get('.header__link').first().realHover();
     cy.get('.header__text').first().should('have.css', 'opacity', '1');
   });
+
 });
